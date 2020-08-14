@@ -1,0 +1,78 @@
+<div class="container-fluid p-4">
+  <div class="row border-bottom">
+    <div class="col-sm-6 mx-auto">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search Products" [(ngModel)]="searchTerm"
+          (keyup.enter)="onSearch()" autofocus />
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" (click)="onSearch()">
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-1 border-bottom">
+      <ng-container *ngFor="let filters of filterData;let i= index">
+        <h5 class="">{{Categories[i] | uppercase}}</h5>
+        <div class="col-sm-12 col-md-1 py-1" *ngFor=" let filter of filters">
+          <span style="cursor: pointer;" (click)="productListByCategories(filter?.category, filter?.can_compare)">
+            {{ filter?.category }}</span>
+        </div>
+      </ng-container>
+    </div>
+    <div class="col-sm-12 col-md-11 mx-auto border-bottom">
+
+      <ng-container *ngFor="let product of searchResults?.data ;let i =index">
+        <div class="row">
+
+          <div class="col-sm-10 mx-auto border-bottom">
+
+            <div class="row">
+
+              <div class="col-sm-12 col-md-3 border-left border-right py-3 text-center">
+                <img style="max-width: 50%; max-height: 50%;" src="{{ product?.product_image }}"
+                  alt="{{ product?.product_title }}" />
+              </div>
+              <div class="col-sm-12 col-md-9">
+                <p><label>Rating: </label> {{ product?.product_rating }}</p>
+                <p><label>Name: </label> {{ product?.product_title }}</p>
+                <p><label>Price: </label> {{ product?.product_lowest_price }}</p>
+                <p>
+                  <button type="button" class="btn btn-info" (click)="productDetails(product?.product_link, i)">View
+                    Store</button>
+                </p>
+                <div class="table-responsive">
+                  <table class="table table-bordered" *ngIf="comparedState[i]?.isDisplayedTable">
+                    <thead>
+                      <tr>
+                        <th>Product Store</th>
+                        <th>Product Logo</th>
+                        <th>Product Store Url</th>
+                        <th>Product Color</th>
+                        <th>Product Price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container *ngFor="let prod of comparedState[i].data">
+                        <tr>
+                          <td>{{prod?.product_store}}</td>
+                          <td> <img style="max-width: 50%; max-height: 50%;" src="{{ prod?.product_store_logo}}"
+                              alt="{{ product?.product_title }}" /></td>
+                          <td><a href="{{prod?.product_store_url}}" target="_blank">{{prod?.product_store}}</a></td>
+                          <td>{{prod?.product_color}}</td>
+                          <td>{{prod?.product_price}}</td>
+                        </tr>
+                      </ng-container>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
